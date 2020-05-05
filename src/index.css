@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+@keyframes Rotate {
+    from {
+        transform: rotateZ(0deg);
+    }
+    to {
+        transform: rotateZ(360deg);
+    }
+}
+
+@keyframes BorderTick {
+  from {
+      border-style: solid;
+  }
+  to {
+      border-style: double;
+  }
+}
+
+@keyframes EnemyTick {
+  from {
+      bottom: 50%;
+  }
+  to {
+      top: 50%;
+  }
+}
+
+@keyframes Slide {
+  from {
+      transform: translateX(0%); 
+  }
+  to {
+      transform: translateX(100%);
+  }
+}
+
+@keyframes Grow {
+  from {
+      transform: scale(0); 
+  }
+  to {
+      transform: scale(1);
+  }
+}
+
+/* The typing effect */
+@keyframes Typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes Blink-Caret {
+  from, to { border-color: transparent }
+  50% { border-color: tomato; }
+}
+
+#root {
+    color: whitesmoke;
+    text-shadow: .5px .5px .5px tomato;
+}
+
+.earth {
+    animation: Rotate infinite 450s,
+               BorderTick infinite alternate 1s;
+}
+
+.player {
+  border-radius: 50%;
+  background-position: center;
+}
+
+.alert {
+  /* background: rgba(245, 245, 245, 0.192); */
+  box-shadow: 0 0 5px 5px rgba(255, 255, 0, 0.568);
+  margin: 20px 20px 20px 20px;
+  animation: Grow 1s;
+}
+
+.enemy {
+  left: 1200px;
+  top: 0px;
+  /* animation: EnemyTick infinite alternate 3s; */
+             /* EnemyAdvance infinite 100s; */
+}
+
+.special {
+  animation: Slide .5s;
+}
+
+.alert-body {
+  left: 75px;
+  overflow: hidden;
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation: 
+    Typing 2s steps(35, end);
+    /* Blink-Caret .75s step-end infinite; */
+}
+
+.alert-img {
+  background: url('https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  animation: Grow 1s;
+}
