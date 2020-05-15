@@ -1,24 +1,34 @@
-import React, { useEffect, useCallback, useState, useRef } from 'react';
+import React, { useEffect, useCallback, useState, useRef, useContext } from 'react';
+import ScoreContext from '../../context/score/ScoreContext';
+import { dispatchLife } from '../player/movement';
 import useInterval from '../../hooks/useInterval';
 import trumpSprite from './trump.png';
 import trumpKiss from '../alert/trump-kiss.png';
-import trumpSuprise from './suprise.png';
+import trumpSurprise from './surprise.png';
 import trumpPuke from './puke.png';
 import splodeGIF from './splode.gif';
 import splodeMP3 from './splode.mp3';
+import richMP3 from './rich.mp3';
 
-const Enemy = ({ setScore, setShield, setSpecial, specialFire, setSpecialFire, laser, isFlying, handleLaserReset, setAlert, children }) => {
+const Enemy = props => {
+
+    const { setShield, setSpecial, specialFire, setSpecialFire, laser, isFlying, handleLaserReset, initialPositionX, initialPositionY, children, setAlert } = props;
+
+    const { setScore } = useContext(ScoreContext);
 
     const enemy = useRef();
 
+    // enemy state
     const [destroyed, setDestroyed] = useState(false);
-
-    const [enemyPosition, setEnemyPosition] = useState(1300);
-
+    const [enemyPositionX, setEnemyPositionX] = useState(initialPositionX);
+    const [enemyPositionY, setEnemyPositionY] = useState(initialPositionY)
     const [background, setBackground] = useState('');
 
+    // enemy move tick
+    const [tickInterval, setTickInterval] = useState(150);
+
     useEffect(() => {
-      const backgrounds = [trumpKiss, trumpSprite, trumpSuprise, trumpPuke];
+      const backgrounds = [trumpKiss, trumpSprite, trumpSurprise, trumpPuke];
       const indexOfBackground = Math.floor(Math.random() * backgrounds.length);
       const randomBackground = backgrounds[indexOfBackground];
       setBackground(randomBackground);
@@ -29,11 +39,10 @@ const Enemy = ({ setScore, setShield, setSpecial, specialFire, setSpecialFire, l
         const rect1 = laser.current.getBoundingClientRect();
         const rect2 = enemy.current.getBoundingClientRect();
     
-        const enemyIntersect = 
-            rect1.x < rect2.x + rect2.width &&
-            rect1.x + rect1.width > rect2.x &&
-            rect1.y < rect2.y + rect2.height &&
-            rect1.height + rect1.y > rect2.y;
+        const enemyIntersect = rect1.x < rect2.x + rect2.width &&
+                               rect1.x + rect1.width > rect2.x &&
+                               rect1.y < rect2.y + rect2.height &&
+                               rect1.height + rect1.y > rect2.y;
     
         if (enemyIntersect && isFlying) {
           const splodeSound = new Audio(splodeMP3);
@@ -45,7 +54,7 @@ const Enemy = ({ setScore, setShield, setSpecial, specialFire, setSpecialFire, l
       }, [handleLaserReset, laser, isFlying, setSpecial]);
 
     const handleEnemyReset = useCallback(() => {
-      const backgrounds = [trumpKiss, trumpSprite, trumpSuprise, trumpPuke];
+      const backgrounds = [trumpKiss, trumpSprite, trumpSurprise, trumpPuke];
       const indexOfBackground = Math.floor(Math.random() * backgrounds.length);
       const randomBackground = backgrounds[indexOfBackground];
       if (destroyed) {
@@ -53,11 +62,18 @@ const Enemy = ({ setScore, setShield, setSpecial, specialFire, setSpecialFire, l
           setDestroyed(false);
           setSpecialFire(false);
         } else if (!destroyed) {
-          setShield(shield => shield - 1);
+          const rich = new Audio(richMP3);
+          rich.play().then(() => {
+            setAlert({ message: "I'm really rich!" });
+            dispatchLife();
+            setShield(shield => shield - 1);
+          });
         }
-        setEnemyPosition(1300);
+        setEnemyPositionX(initialPositionX);
+        setEnemyPositionY(initialPositionY);
         setBackground(randomBackground);
-      }, [destroyed, setScore, setShield, setSpecialFire]);
+        setTickInterval(tickInterval => tickInterval - 3);
+      }, [destroyed, setScore, setShield, setSpecialFire, initialPositionX, initialPositionY, setAlert]);
 
       const handleSpecialReset = useCallback(() => {
         const splodeSound = new Audio(splodeMP3);
@@ -88,10 +104,10 @@ const Enemy = ({ setScore, setShield, setSpecial, specialFire, setSpecialFire, l
       }, [handleSpecialReset, specialFire]);
 
       useInterval(() => {
-        const observingMapBounds = enemyPosition > 0;
+        const observingMapBounds = enemyPositionX > 0;
         switch (true) {
             case observingMapBounds:
-                setEnemyPosition(enemyPosition => enemyPosition - 8);
+                setEnemyPositionX(enemyPositionX => enemyPositionX - 8);
                 break;
             case !observingMapBounds:
                 handleEnemyReset();
@@ -99,7 +115,7 @@ const Enemy = ({ setScore, setShield, setSpecial, specialFire, setSpecialFire, l
             default:
                 console.log(destroyed);
         }
-    }, !destroyed ? 250 : null);
+    }, !destroyed ? tickInterval : null);
 
     return (
             <div
@@ -109,9 +125,10 @@ const Enemy = ({ setScore, setShield, setSpecial, specialFire, setSpecialFire, l
                 style={{
                     position: 'relative',
                     zIndex: 1,
-                    left: enemyPosition,
-                    height: '150px',
-                    width: '150px',
+                    top: enemyPositionY,
+                    left: enemyPositionX,
+                    height: '125px',
+                    width: '125px',
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'contain',
                     backgroundImage: !destroyed ? `url('${background}')` : `url('${splodeGIF}')`

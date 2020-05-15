@@ -4,7 +4,7 @@ import congratsMP3 from './congrats.mp3';
 import quietMP3 from './quiet.mp3';
 import rocketMP3 from './rocket.mp3';
 import wallMP3 from './wall.mp3';
-import trumpSuprise from '../enemy/suprise.png';
+import trumpSurprise from '../enemy/surprise.png';
 
 const Alert = props => {
 
@@ -50,23 +50,21 @@ const Alert = props => {
     }, [alert, setAlert])
 
     return (
-        <span 
-            className="alert" 
+        <span
+            className='alert'  
             style={{
-                display: !alert.isOpen ? 'inline' : 'none',
+                display: !alert.isOpen ? 'block' : 'none',
                 position: 'absolute',
                 margin: '20px',
                 height: 60,
-                width: 400,
+                width: 500,
                 left: 0
             }}>
             <div style={{ position: 'relative' }}>
-                <div style={{ position: 'relative' }}>
-                    <img className='alert-img' style={{ top: -15 }} height='60px' width='60px' src={trumpSuprise} alt='' />
-                    <span className='alert-body' style={{ position: 'absolute', top: '15%', fontSize: 13 }}>
-                        <pre>{alert.message || `"Grab 'em by the pussy."`}</pre>
-                    </span> 
-                </div>
+                <img className='alert-img' height='40px' width='40px' src={trumpSurprise} alt='' />
+                <span className='alert-body' style={{ position: 'absolute', top: '30%', fontSize: 13 }}>
+                    <pre className='text-white'>{alert.message || `"Grab 'em by the pussy."`}</pre>
+                </span> 
             </div>
         </span>
     );

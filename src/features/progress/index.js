@@ -1,28 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ScoreContext from '../../context/score/ScoreContext';
+import ProgressBar from '../progressBar';
 
 const Progress = props => {
 
-    const { score, shield, charge, special, children } = props;
+    const { shield, charge, special, children } = props;
+
+  const { score } = useContext(ScoreContext);
 
     return (
-        <div style={{ marginTop: 10, marginLeft: 20 }}>
-            <span style={{ position: 'relative', top: 4 }} className='score'>SCORE {score}</span>
-            &nbsp;<span className="fas fa-globe-americas" />&nbsp;
-            <progress style={{ border: shield === 3 ? '1px solid lawngreen' : shield === 2 ? '1px solid gold' : '1px solid red'}} max={3} value={shield}>
-                <div className="progress-bar">
-                    <span style={{width: `${shield / 3 * 100}%`}} /> 
-                </div>
-            </progress>
-            &nbsp;<span className='fas fa-bolt' />&nbsp;
-            <progress style={{ border: charge === 3 ? '1px solid lawngreen' : charge === 2 ? '1px solid gold' : '1px solid red'}} max={3} value={charge} />
-            &nbsp;<span className='fas fa-star' />&nbsp;
-            <progress style={{ border: special >= 5 ? '1px solid lawngreen' : special >= 3 ? '1px solid gold' : special <= 2 ? '1px solid red' : '1px solid red'}} max={5} value={special}>
-                <div className="progress-bar">
-                    <span style={{width: `${special / 5 * 100}%`}} />
-                </div>
-            </progress>
-            {children}
-        </div>
+        <span style={{ marginTop: 10, marginLeft: 20 }}>
+            <span style={{ position: 'relative', color: 'yellow', paddingRight: 5 }}>
+                SCORE <span style={{ color: 'whitesmoke' }}>{score}</span>
+            </span>&nbsp;
+            <ProgressBar value={shield} className='fas fa-globe-americas'/>
+            &nbsp;<span style={{ color: 'yellow' }} data-fa-transform="up-2" className='fas fa-bolt' /><span className="progress-text">{`${Math.floor(charge / 3 * 100)}%`}</span>
+            <progress style={{ outline: charge === 3 ? 'solid lawngreen' : charge === 2 ? 'solid yellow' : charge === 1 ? 'solid red' : 'solid red', position: 'relative' }} max={3} value={charge} />
+            &nbsp;<span style={{ color: 'yellow' }} data-fa-transform="up-2" className='fas fa-star' /><span className="progress-text" style={{ color: special >= 5 ? 'lawngreen' : special >= 3 ? 'gold' : special <= 1 ? 'red' : 'red', position: 'relative' }}>{`${special / 5 * 100}%`}</span>
+            <progress style={{ outline: special >= 5 ? 'solid lawngreen' : special >= 3 ? 'solid gold' : special <= 1 ? 'solid red' : 'solid red', position: 'relative' }} max={5} value={special} />
+            { children }
+        </span>
     );
 };
 

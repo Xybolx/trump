@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import routes from './pages/routes';
+import background from './features/map/stars.jpg';
 
 const App = () => {
 
@@ -14,13 +15,17 @@ const App = () => {
   ));
 
   return (
-    <>
-      <Router>
+    <Router>
+    <div
+      style={{
+        backgroundImage: `url('${background}')`,
+        backgroundSize: 'cover',
+      }}>
         <Switch>
           {mappedRoutes}
         </Switch>
+      </div>
       </Router>
-    </>
   );
 };
 

@@ -13,21 +13,31 @@ const Laser = forwardRef((props, laser) => {
 
     // function handling laser fire
     const handleLaserFire = useCallback(() => {
-        const laserSound = new Audio(laserMP3);
-        if (charge === 3 && special < 5) {
-            laserSound.volume = .75;
-            laserSound.play()
-                .then(() => setIsFlying(true))
-                .then(() => setVisibility('visible'))
-                .then(() => setCharge(0))
-                .catch(err => console.log(err));
-        } else if (charge === 3 && special >= 5) {
-            const specialSound = new Audio(specialMP3);
-            specialSound.play()
-                .then(() => setCharge(0))
-                .then(() => handleSpecialFire())
-                .then(() => setSpecial(0))
-                .catch(err => console.log(err));
+
+        const specialFire = charge === 3 && special >= 5;
+
+        const regularFire = charge === 3 && special < 5;
+
+        switch (true) {
+            case specialFire:
+                const specialSound = new Audio(specialMP3);
+                specialSound.play()
+                    .then(() => setCharge(0))
+                    .then(() => handleSpecialFire())
+                    .then(() => setSpecial(0))
+                    .catch(err => console.log(err));
+                break;
+            case regularFire:
+                const laserSound = new Audio(laserMP3);
+                laserSound.volume = .75;
+                laserSound.play()
+                    .then(() => setIsFlying(true))
+                    .then(() => setVisibility('visible'))
+                    .then(() => setCharge(0))
+                    .catch(err => console.log(err));
+                break;
+            default:
+                break;
         }
         
     }, [setCharge, setIsFlying, setVisibility, handleSpecialFire, special, setSpecial, charge]);
@@ -88,13 +98,12 @@ const Laser = forwardRef((props, laser) => {
                 style={{
                     position: 'relative',
                     left: position,
-                    top: 70,
+                    top: 73,
                     visibility: visibility,
-                    background: 'repeating-linear-gradient(tomato, whitesmoke, tomato, red)',
-                    // border: '1px solid dodgerblue',
+                    background: 'repeating-linear-gradient(tomato, whitesmoke, tomato)',
                     borderRadius: '20%',
-                    height: '10px',
-                    width: '50px',
+                    height: 5,
+                    width: 50,
                 }}>
                 {gamepad}
         </div>

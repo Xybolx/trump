@@ -1,6 +1,7 @@
 
 const initialState = {
-    position: 0
+    position: 0,
+    life: 10
 };
 
 const playerReducer = (state=initialState, action) => {

@@ -1,6 +1,5 @@
 import React from 'react';
-import lightningGIF from './lightning.gif';
-import lightningGIF3 from './lightning3.gif';
+import lightningGIF from './lightning3.gif';
 
 const SpecialContainer = props => {
 
@@ -12,15 +11,13 @@ const SpecialContainer = props => {
             style={{ 
                 position: 'absolute',
                 zIndex: 4,
-                // background: 'repeating-linear-gradient(lawngreen, tomato, whitesmoke, tomato, slateblue)',
-                background: `url('${lightningGIF3}')`,
-                backgroundSize: 400,
+                background: `url('${lightningGIF}')`,
+                backgroundSize: 450,
                 backgroundRepeat: 'no-repeat',
-                // borderRadius: '30%',
                 height: 450,
                 width: '55%', 
                 left: 100,
-                top: 200,
+                top: 100,
                 transform: 'translateX(100%)',
                 display: specialFire ? 'block' : 'none' 
             }}>

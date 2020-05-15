@@ -1,39 +1,52 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import background from '../features/map/stars.jpg';
-import earthPNG from '../features/earth/earth.png';
-import trumpKissPNG from '../features/alert/trump-kiss.png';
-
-import { MAP_HEIGHT, MAP_WIDTH } from '../config/constants';
+import React, { useEffect, useContext } from 'react';
+import AudioPlayer from '../features/audio';
+import fakeMP3 from '../features/modal/fake.mp3';
+import hailMP3 from '../imgs/hail.mp3';
+import LinkBtn from '../button/LinkBtn';
+import ModalBtn from '../button/ModalBtn';
+import ScoresModal from '../features/modal/ScoresModal';
+import Title from '../features/title';
+import GameOverContext from '../context/gameOver/GameOverContext';
+import PageContainer from '../features/pageContainer/PageContainer';
+import TitleImg from '../features/titleImg';
 
 const Home = () => {
+
+    const { setGameOver } = useContext(GameOverContext);
+
+    const playMP3 = () => {
+        const fake = new Audio(fakeMP3);
+        fake.play();
+    };
+
+    useEffect(() => {
+        setGameOver(false);
+    }, [setGameOver]);
+
     return (
-        <div 
-            style={{
-                position: 'relative',
-                width: MAP_WIDTH,
-                height: MAP_HEIGHT,
-                margin: '10px auto',
-                backgroundImage: `url('${background}'), url('${earthPNG}')`,
-                backgroundBlendMode: 'difference',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover, 500px',
-                backgroundPositionY: 'center',
-                backgroundPositionX: 'center',
-                border: '4px solid grey',
-                textAlign: 'center'
-            }}>
-            <div 
-                style={{ 
-                    position: 'relative', 
-                    top: '20%' 
-                }}>
-                <img style={{ position: 'relative', mixBlendMode: 'overlay' }} height='300px' width='300px' src={trumpKissPNG} alt='' />
-                <h2>Trump Earth Defense</h2>
-                <h5>Ready to make the Earth great again?</h5>
-                <Link exact to='/game'>Yes!</Link>
+        <PageContainer>
+            <AudioPlayer id='hail' src={hailMP3} playbackRate={.30} />
+            <TitleImg />
+            <ScoresModal />
+            <Title 
+                text='Trump Earth Defense' 
+                subText='Ready To Make Earth Great Again?' 
+                />
+            <div className='button-wrapper mt-5'>
+                <LinkBtn
+                    className='btn btn-link'
+                    text='START GAME'
+                    to='/game'
+                    />
+                <ModalBtn
+                    className='btn btn-link'
+                    text='HIGH SCORES'
+                    onClick={playMP3}
+                    dataToggle="modal" 
+                    dataTarget="#scoresModal"
+                    />
             </div>
-        </div>
+        </PageContainer>
     );
 };
 

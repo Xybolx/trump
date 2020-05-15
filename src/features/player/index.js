@@ -2,12 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import shipSprite from './ship.png';
 import { handleMovement } from './movement';
-// import useGamepad from '../../hooks/useGamepad';
 
 const Player = props => {
 
     const { position, children } = props;
-
+    
     return (
             <div
                 className='player'

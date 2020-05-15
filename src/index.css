@@ -69,13 +69,22 @@ code {
   50% { border-color: tomato; }
 }
 
+@keyframes HoverFlash {
+  from {
+      color: tomato;
+  }
+  to {
+    color: whitesmoke;
+  }
+}
+
 #root {
     color: whitesmoke;
     text-shadow: .5px .5px .5px tomato;
 }
 
 .earth {
-    animation: Rotate infinite 450s,
+    animation: Rotate infinite 500s,
                BorderTick infinite alternate 1s;
 }
 
@@ -94,8 +103,6 @@ code {
 .enemy {
   left: 1200px;
   top: 0px;
-  /* animation: EnemyTick infinite alternate 3s; */
-             /* EnemyAdvance infinite 100s; */
 }
 
 .special {
@@ -108,14 +115,61 @@ code {
   white-space: nowrap; /* Keeps the content on a single line */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
   letter-spacing: .15em; /* Adjust as needed */
-  animation: 
-    Typing 2s steps(35, end);
-    /* Blink-Caret .75s step-end infinite; */
+  animation: Typing 2s steps(35, end);
 }
 
 .alert-img {
-  background: url('https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png');
+  animation: Grow 1s;
+}
+
+h2 {
+  color: yellow;
+  text-shadow: .5px .5px .5px .5px dodgerblue;
+  animation: Grow 1s;
+}
+
+h5 {
+  color: whitesmoke;
+  text-shadow: .5px .5px .5px .5px dodgerblue;
+  animation: Grow 2s;
+}
+
+tr {
+  color: yellow;
+}
+
+/* .modal-footer {
+  background: url('./imgs/case.png');
+  background-size: contain; */
+
+
+.modal-content {
+  background: url('./imgs/flag.png'), rgba(0, 0, 0, 0.753);
+  background-blend-mode: color-burn;
   background-size: cover;
   background-repeat: no-repeat;
-  animation: Grow 1s;
+}
+
+.btn-link:hover {
+  animation: HoverFlash infinite .45s;
+  text-decoration: none;
+}
+
+.btn.btn-link {
+  color: yellow;
+  text-decoration: transparent;
+}
+
+.button-wrapper {
+  text-decoration: transparent;
+  animation: Grow 2.5s;
+}
+
+progress {
+  -ms-progress-appearance: none;
+  appearance: none;
+}
+
+.title-image {
+  animation: Grow .5s;
 }

@@ -39,15 +39,29 @@ function getNewPosition(direction) {
 };
 
 function observeBoundaries(oldPos, newPos) {
-    return newPos >= 0 && newPos <= MAP_HEIGHT - SPRITE_SIZE * 1.5 ? newPos : oldPos;
+    return newPos >= 0 && newPos <= MAP_HEIGHT - SPRITE_SIZE ? newPos : oldPos;
 };
 
 export function dispatchMove(direction) {
     const oldPos = store.getState().player.position;
+    const prevLife = store.getState().player.life;
     store.dispatch({
         type: 'MOVE_PLAYER',
         payload: {
-            position: observeBoundaries(oldPos, getNewPosition(direction))
+            position: observeBoundaries(oldPos, getNewPosition(direction)),
+            life: prevLife
+        }
+    });
+};
+
+export function dispatchLife() {
+    const oldPos = store.getState().player.position;
+    const prevLife = store.getState().player.life;
+    store.dispatch({
+        type: 'DECREMENT_LIFE',
+        payload: {
+            position: oldPos,
+            life: prevLife - 1,
         }
     });
 };

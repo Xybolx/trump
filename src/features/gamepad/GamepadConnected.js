@@ -5,9 +5,7 @@ const GamepadConnected = props => {
     const { connected } = props;
 
     return (
-        <div className="badge text-left" style={{ height: 35 }}>
-            <span style={{ position: 'absolute', fontSize: "small" }}><i className="fas fa-gamepad fa-fw fa-2x" /> {connected ? "Connected" : "Not Connected"}</span> 
-        </div>
+        <span style={{ position: 'relative', fontSize: "small", top: 4, marginLeft: 15 }}><span style={{ color: 'yellow' }} className="fas fa-gamepad fa-fw fa-2x" /> {connected ? "Connected" : "Not Connected"}</span> 
     );
 };
 

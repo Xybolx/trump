@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import World from '../features/world';
+import GameOver from './GameOver';
+import GameOverContext from '../context/gameOver/GameOverContext';
 
 const Game = () => {
+
+    const { gameOver } = useContext(GameOverContext);
+
     return (
         <>
-            <World />
+            { gameOver ? <GameOver /> : <World /> }
         </>
     );
 };
